@@ -2,6 +2,7 @@ package com.example.testtaskinspirationpoint
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -14,6 +15,7 @@ fun RowScope.TableCell(modifier: Modifier = Modifier, text: String, weight: Floa
     Text(
         text = text,
         modifier
+            .fillMaxHeight()
             .border(1.dp, Color.Black)
             .weight(weight)
             .padding(8.dp)
