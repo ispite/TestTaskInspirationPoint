@@ -77,23 +77,12 @@ fun CreateRow(modifier: Modifier = Modifier, ordinal: Int, count: Int = 7) {
         TableCell(modifier, text = "$ordinal", weight = 0.1f)
         for (i in 1..count) {
             if (i == ordinal) TableCell(modifier.background(Color.Black), text = "", weight = 0.1f)
-            else TableCell(modifier, text = "", weight = 0.1f)
+            else EditableTableCell(modifier, text = "", weight = 0.1f)
         }
-        TableCell(modifier, text = "", weight = 0.3f)
-        TableCell(modifier, text = "", weight = 0.3f)
+        EditableTableCell(modifier, text = "", weight = 0.3f)
+        EditableTableCell(modifier, text = "", weight = 0.3f)
     }
 }
-
-/*@Composable
-fun CreateTable(modifier: Modifier = Modifier, count: Int = 7) {
-    Row(
-        modifier
-    ) {
-        for (i in 1..count) {
-            CreateRow(ordinal = i)
-        }
-    }
-}*/
 
 @Preview(showBackground = true, widthDp = 640)
 @Composable
