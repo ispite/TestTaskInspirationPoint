@@ -41,12 +41,13 @@ private fun MyApp(modifier: Modifier = Modifier) {
 
 @Composable
 fun MainTable(modifier: Modifier = Modifier) {
+    val count = 7
     LazyColumn(modifier) {
         item {
-            CreateHead()
+            CreateHead(count = count)
         }
-        items(7) { it ->
-            CreateRow(ordinal = it + 1)
+        items(count) { it ->
+            CreateRow(ordinal = it + 1, count = count)
         }
     }
 }
@@ -79,8 +80,8 @@ fun CreateRow(modifier: Modifier = Modifier, ordinal: Int, count: Int = 7) {
             if (i == ordinal) TableCell(modifier.background(Color.Black), text = "", weight = 0.1f)
             else EditableTableCell(modifier, text = "", weight = 0.1f)
         }
-        EditableTableCell(modifier, text = "", weight = 0.3f)
-        EditableTableCell(modifier, text = "", weight = 0.3f)
+        TableCell(modifier, text = "", weight = 0.3f)
+        TableCell(modifier, text = "", weight = 0.3f)
     }
 }
 

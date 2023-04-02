@@ -3,6 +3,7 @@ package com.example.testtaskinspirationpoint
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.widget.Toast
 
 fun Context.findActivity(): Activity {
     var context = this
@@ -11,4 +12,8 @@ fun Context.findActivity(): Activity {
         context = context.baseContext
     }
     throw IllegalStateException("no activity")
+}
+
+fun Context.customToast(messageText: String) {
+    Toast.makeText(this, messageText, Toast.LENGTH_SHORT).show()
 }
