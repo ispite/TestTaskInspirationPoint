@@ -1,6 +1,5 @@
 package com.example.testtaskinspirationpoint
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -32,18 +31,24 @@ fun RowScope.TableCell(modifier: Modifier = Modifier, text: String, weight: Floa
 }
 
 @Composable
-fun RowScope.EditableTableCell(modifier: Modifier = Modifier, text: String = "", weight: Float) {
-    var message by remember { mutableStateOf("") }
+fun RowScope.EditableTableCell(
+    modifier: Modifier = Modifier,
+    text: String = "",
+    enabled: Boolean = true,
+    weight: Float,
+    newValue: (Int) -> Unit
+) {
+    var message by remember { mutableStateOf(text) }
     val correctness = if (message.isBlank()) null else "012345".contains(message)
     val myTextStyle =
-        if (correctness == true) LocalTextStyle.current.copy(color = Color.Black)
-        else LocalTextStyle.current.copy(color = Color.Red)
+        if (correctness == true) {
+            newValue(message.toInt())
+            LocalTextStyle.current.copy(color = Color.Black)
+        } else LocalTextStyle.current.copy(color = Color.Red)
 
     if (correctness == false) LocalContext.current.customToast("Допустимы числа от 0 до 5")
-    Log.d("EditableTableCell", "EditableTableCell: $correctness")
 
     val maxChar = 1
-    val enabled = true
     val singleLine = true
     val focusManager = LocalFocusManager.current
 
