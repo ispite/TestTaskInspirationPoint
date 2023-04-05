@@ -36,7 +36,7 @@ fun RowScope.EditableTableCell(
     text: String = "",
     enabled: Boolean = true,
     weight: Float,
-    newValue: (Int) -> Unit
+    newValue: (Int?) -> Unit
 ) {
     var message by remember { mutableStateOf(text) }
     val correctness = if (message.isBlank()) null else "012345".contains(message)
@@ -44,7 +44,10 @@ fun RowScope.EditableTableCell(
         if (correctness == true) {
             newValue(message.toInt())
             LocalTextStyle.current.copy(color = Color.Black)
-        } else LocalTextStyle.current.copy(color = Color.Red)
+        } else {
+            if (message.isBlank()) newValue(null)
+            LocalTextStyle.current.copy(color = Color.Red)
+        }
 
     if (correctness == false) LocalContext.current.customToast("Допустимы числа от 0 до 5")
 

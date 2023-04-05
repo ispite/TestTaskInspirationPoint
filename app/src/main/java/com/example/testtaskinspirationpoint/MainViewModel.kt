@@ -32,7 +32,7 @@ class MainViewModel : ViewModel() {
         checkCompResultCount(participantId)
     }
 
-    fun checkCompResultCount(participantId: Int) {
+    private fun checkCompResultCount(participantId: Int) {
         participants.find { it.id == participantId }?.let { prtcpnt ->
             val predicate: (Int?) -> Boolean = { it != null }
             val notNullCount = prtcpnt.competitions.map { it.competitionResult }.count(predicate)
@@ -41,6 +41,7 @@ class MainViewModel : ViewModel() {
             val sum = prtcpnt.competitions.map { it.competitionResult }.filterNotNull().sum()
 
             if (prtcpnt.competitions.size - 1 == notNullCount) prtcpnt.pointsTotal = sum
+            else prtcpnt.pointsTotal = null
         }
     }
 }
