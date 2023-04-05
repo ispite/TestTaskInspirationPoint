@@ -58,6 +58,7 @@ fun MainTable(
                 ordinal = it.id /*+ 1*/,
                 count = list.size,
                 pointsTotal = it.pointsTotal,
+                place = it.place,
 //                onCompetitionChange = { mainViewModel::changeParticipantCompetitionResult })
                 onCompetitionChange = { participantId, competitionId, competitionResult ->
                     Log.d(
@@ -80,6 +81,7 @@ fun CreateRow(
     ordinal: Int,
     count: Int = 7,
     pointsTotal: Int?,
+    place: Int?,
     onCompetitionChange: (Int, Int, Int?) -> Unit
 ) {
     val newOrdinal = ordinal + 1
@@ -105,7 +107,7 @@ fun CreateRow(
             }
         }
         TableCell(modifier, text = pointsTotal?.toString() ?: "", weight = 0.3f)
-        TableCell(modifier, text = "", weight = 0.3f)
+        TableCell(modifier, text = place?.toString() ?: "", weight = 0.3f)
     }
 }
 
