@@ -53,14 +53,28 @@ class MainViewModel : ViewModel() {
             // и соответственно одинаковое место для участников
 //            val count = participants.forEach { it.pointsTotal in participants.map { it.pointsTotal } }
 //            val count = participants.forEach { /*it.pointsTotal in*/ participants.map { it.pointsTotal }.contains(it.pointsTotal) }
-            val count = participants.forEach { participant -> /*it.pointsTotal in*/ participants.map { it.pointsTotal }.find {it == participant.pointsTotal} }
+//            val count = participants.forEach { participant -> /*it.pointsTotal in*/ participants.map { it.pointsTotal }.find {it == participant.pointsTotal} }
 
             Log.d("ViewModel", "timeForReward")
             val participantFromWorstToFirst = participants.sortedBy { it.pointsTotal }
-            participantFromWorstToFirst.forEachIndexed { i, rangedParticipant ->
-//                Log.d("ViewModel", "participant.id ${it.id} participant.pointsTotal ${it.pointsTotal}")
-                participants.find { it.id == rangedParticipant.id }
-                    .let { it?.place = participantFromWorstToFirst.size - i }
+            var placeCounter = 0
+            participantFromWorstToFirst.reversed().forEachIndexed { i, rangedParticipant ->
+                if (participantFromWorstToFirst.indices.contains(i-1)) {
+                    if (participantFromWorstToFirst[i-1].pointsTotal == rangedParticipant.pointsTotal) {
+                        participants.find { it.id == rangedParticipant.id }
+                            .let { it?.place = placeCounter }
+                    } else {
+                        participants.find { it.id == rangedParticipant.id }
+                            .let { placeCounter += 1
+                                it?.place = placeCounter
+                            }
+                    }
+                } else {
+                    participants.find { it.id == rangedParticipant.id }
+                        .let { placeCounter += 1
+                            it?.place = placeCounter
+                        }
+                }
             }
         }
     }
