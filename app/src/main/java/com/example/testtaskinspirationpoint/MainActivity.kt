@@ -35,7 +35,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun MyApp(modifier: Modifier = Modifier) {
-//    LockScreenOrientation()
     Surface(modifier, color = MaterialTheme.colors.background) {
 //        LockScreenOrientation()
         MainTable()
@@ -59,12 +58,7 @@ fun MainTable(
                 count = list.size,
                 pointsTotal = it.pointsTotal,
                 place = it.place,
-//                onCompetitionChange = { mainViewModel::changeParticipantCompetitionResult })
                 onCompetitionChange = { participantId, competitionId, competitionResult ->
-                    Log.d(
-                        "MainTable",
-                        "CreateRow participantId $participantId competitionId $competitionId competitionResult $competitionResult"
-                    )
                     mainViewModel.changeParticipantCompetitionResult(
                         participantId,
                         competitionId,
@@ -85,7 +79,6 @@ fun CreateRow(
     onCompetitionChange: (Int, Int, Int?) -> Unit
 ) {
     val newOrdinal = ordinal + 1
-//    val newPointsTotal = pointsTotal?.toString() ?: ""
     Row(
         modifier
     ) {
