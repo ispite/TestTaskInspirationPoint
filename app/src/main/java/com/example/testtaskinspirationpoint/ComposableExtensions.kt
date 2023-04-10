@@ -14,6 +14,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -31,28 +32,17 @@ fun RowScope.TableCell(modifier: Modifier = Modifier, text: String, weight: Floa
 }
 
 @Composable
-fun RowScope.EditableTableCell(
+fun RowScope.StatelessEditableTableCell(
     modifier: Modifier = Modifier,
-    text: String = "",
+    message: String = "",
     enabled: Boolean = true,
+    correctness: Boolean?,
+    maxChar: Int = 1,
+    textStyle: TextStyle,
+    singleLine: Boolean = true,
     weight: Float,
-    newValue: (Int?) -> Unit
+    newValue: (String) -> Unit
 ) {
-    var message by remember { mutableStateOf(text) }
-    val correctness = if (message.isBlank()) null else "012345".contains(message)
-    val myTextStyle =
-        if (correctness == true) {
-            newValue(message.toInt())
-            LocalTextStyle.current.copy(color = Color.Black)
-        } else {
-            if (message.isBlank()) newValue(null)
-            LocalTextStyle.current.copy(color = Color.Red)
-        }
-
-    if (correctness == false) LocalContext.current.customToast("Допустимы числа от 0 до 5")
-
-    val maxChar = 1
-    val singleLine = true
     val focusManager = LocalFocusManager.current
 
     LaunchedEffect(
@@ -67,8 +57,8 @@ fun RowScope.EditableTableCell(
 
     BasicTextField(
         value = message,
-        onValueChange = { newText -> if (newText.length <= maxChar) message = newText },
-        textStyle = myTextStyle,
+        onValueChange = { newText -> if (newText.length <= maxChar) newValue(newText) },
+        textStyle = textStyle,
         modifier =
         modifier
             .border(1.dp, Color.Black)
@@ -82,4 +72,40 @@ fun RowScope.EditableTableCell(
             imeAction = ImeAction.Next
         )
     )
+}
+
+@Composable
+fun RowScope.StatefulEditableTableCell(
+    modifier: Modifier = Modifier,
+    text: String = "",
+    enabled: Boolean = true,
+    weight: Float,
+    newValue: (Int?) -> Unit
+) {
+    var message by remember { mutableStateOf(text) }
+    val correctness = if (message.isBlank()) null else "012345".contains(message)
+    val textStyle =
+        if (correctness == true) {
+            newValue(message.toInt())
+            LocalTextStyle.current.copy(color = Color.Black)
+        } else {
+            if (message.isBlank()) newValue(null)
+            LocalTextStyle.current.copy(color = Color.Red)
+        }
+
+    if (correctness == false) LocalContext.current.customToast("Допустимы числа от 0 до 5")
+
+    val maxChar = 1
+    val singleLine = true
+
+    StatelessEditableTableCell(
+        modifier = modifier,
+        message = message,
+        enabled = enabled,
+        correctness = correctness,
+        maxChar = maxChar,
+        textStyle = textStyle,
+        singleLine = singleLine,
+        weight = weight
+    ) { message = it }
 }

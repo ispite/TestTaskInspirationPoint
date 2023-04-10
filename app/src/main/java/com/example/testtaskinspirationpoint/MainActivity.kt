@@ -86,7 +86,7 @@ fun CreateRow(
         TableCell(modifier, text = "$newOrdinal", weight = 0.1f)
         for (i in 0 until count) {
             if (i == ordinal) {
-                EditableTableCell(
+                StatefulEditableTableCell(
                     modifier.background(Color.Black),
                     text = "",
                     enabled = false,
@@ -94,7 +94,7 @@ fun CreateRow(
                     newValue = {})
                 Log.d("CreateRow", "BLACK CELL number: $i")
                 onCompetitionChange(ordinal, i, null)
-            } else EditableTableCell(modifier, text = "", weight = 0.1f) {
+            } else StatefulEditableTableCell(modifier, text = "", weight = 0.1f) {
                 Log.d("CreateRow", "EDITABLE CELL number: $i")
                 onCompetitionChange(ordinal, i, it)
             }
