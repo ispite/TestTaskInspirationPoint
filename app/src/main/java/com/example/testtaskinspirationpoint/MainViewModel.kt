@@ -55,21 +55,26 @@ class MainViewModel : ViewModel() {
 //            val count = participants.forEach { /*it.pointsTotal in*/ participants.map { it.pointsTotal }.contains(it.pointsTotal) }
 //            val count = participants.forEach { participant -> /*it.pointsTotal in*/ participants.map { it.pointsTotal }.find {it == participant.pointsTotal} }
 
-            Log.d("ViewModel", "timeForReward")
-            val participantFromWorstToFirst = participants.sortedBy { it.pointsTotal }
+//            Log.d("ViewModel", "timeForReward")
+//            val participantFromWorstToFirst = participants.sortedBy { it.pointsTotal }
+            val participantFromFirstToLast = participants.sortedByDescending { it.pointsTotal }
             var placeCounter = 0
-            participantFromWorstToFirst.reversed().forEachIndexed { i, rangedParticipant ->
-                if (participantFromWorstToFirst.indices.contains(i-1)) {
-                    if (participantFromWorstToFirst[i-1].pointsTotal == rangedParticipant.pointsTotal) {
+            participantFromFirstToLast.forEachIndexed { i, rangedParticipant ->
+                if (participantFromFirstToLast.indices.contains(i-1)) {
+//                    Log.d("ViewModel", "index =$i rangedParticipant.pointsTotal =${rangedParticipant.pointsTotal} participantFromWorstToFirst[i-1].pointsTotal =${participantFromFirstToLast[i-1].pointsTotal}")
+                    if (participantFromFirstToLast[i-1].pointsTotal == rangedParticipant.pointsTotal) {
+//                        Log.d("ViewModel", "same place")
                         participants.find { it.id == rangedParticipant.id }
                             .let { it?.place = placeCounter }
                     } else {
+//                        Log.d("ViewModel", "same id, BUT placeCounter +1")
                         participants.find { it.id == rangedParticipant.id }
                             .let { placeCounter += 1
                                 it?.place = placeCounter
                             }
                     }
                 } else {
+//                    Log.d("ViewModel", "placeCounter +1")
                     participants.find { it.id == rangedParticipant.id }
                         .let { placeCounter += 1
                             it?.place = placeCounter
