@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.testtaskinspirationpoint.data.Config
 import com.example.testtaskinspirationpoint.ui.theme.TestTaskInspirationPointTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,7 +37,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun MyApp(modifier: Modifier = Modifier) {
     Surface(modifier, color = MaterialTheme.colors.background) {
-//        LockScreenOrientation()
+        LockScreenOrientation()
         MainTable()
     }
 }
@@ -46,15 +47,14 @@ fun MainTable(
     modifier: Modifier = Modifier,
     mainViewModel: MainViewModel = viewModel()
 ) {
-    val count = 7
     val list = mainViewModel.participants
     LazyColumn(modifier) {
         item {
-            CreateHead(count = count)
+            CreateHead(count = Config.COUNT)
         }
         items(list, key = { participant -> participant.id }) { it ->
             CreateRow(
-                ordinal = it.id /*+ 1*/,
+                ordinal = it.id,
                 count = list.size,
                 pointsTotal = it.pointsTotal,
                 place = it.place,
@@ -73,7 +73,7 @@ fun MainTable(
 fun CreateRow(
     modifier: Modifier = Modifier,
     ordinal: Int,
-    count: Int = 7,
+    count: Int,
     pointsTotal: Int?,
     place: Int?,
     onCompetitionChange: (Int, Int, Int?) -> Unit
@@ -105,7 +105,7 @@ fun CreateRow(
 }
 
 @Composable
-fun CreateHead(modifier: Modifier = Modifier, count: Int = 7) {
+fun CreateHead(modifier: Modifier = Modifier, count: Int) {
     Row(
         modifier
             .background(Color.Gray)

@@ -2,6 +2,7 @@ package com.example.testtaskinspirationpoint
 
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
+import com.example.testtaskinspirationpoint.data.Config
 import com.example.testtaskinspirationpoint.data.Participant
 
 class MainViewModel : ViewModel() {
@@ -60,5 +61,5 @@ class MainViewModel : ViewModel() {
     }
 }
 
-fun createStartParticipants(count: Int = 7): List<Participant> =
+fun createStartParticipants(count: Int = Config.COUNT): List<Participant> =
     List(count) { i -> Participant(i, count) }
